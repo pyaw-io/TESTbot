@@ -1,0 +1,16 @@
+<%- include('./partials/header.ejs') %>
+
+
+    <% results.forEach( (item,i) => { %>
+    <div class="container col-5 ">
+      
+        <p><%=item.venue%></p>
+        <p><%=item.date%></p>
+    
+    </div>
+    
+    <%})%> 
+
+
+    
+<%- include('./partials/footer.ejs') %>

@@ -1,0 +1,28 @@
+
+       <%- include('./partials/header.ejs') %>
+       <h1>Available Dates</h1>
+       <form class="form_class" action="/" method="post">
+            <div class="form-group">
+                <label for="driving-license">Driving Licence Number</label>
+                <input type="text" class="form-control" id="driving-license" aria-describedby="drivinglicensenumber" name="drivinglicense">
+              </div>
+              <div class="form-group">
+                <label for="reference">Booking Reference Number</label>
+                <input type="number" class="form-control" id="reference" name="reference">
+              </div>
+              <div class="form-group">
+                <label for="postcode">Post Code</label>
+                <input type="text" class="form-control" id="postcode" name="postcode">
+              </div>
+              <div class="form-group form-check">
+                <input type="alert" class="form-check-input" id="alert" name="alert">
+                <label class="form-check-label" for="alert">Test alert</label>
+                <small id="emailHelp" class="form-text text-muted">Turn on to enable test times alert to be sent every 15 minutes</small>
+
+              </div>
+              <button type="submit" class="btn btn-primary">Find a Test!</button>
+            
+
+
+        </form>
+        <%- include('./partials/footer.ejs') %>

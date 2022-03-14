@@ -5,7 +5,9 @@ const puppeteer = require("puppeteer-extra");
 const pluginStealth = require("puppeteer-extra-plugin-stealth");
 const AdblockerPlugin = require("puppeteer-extra-plugin-adblocker");
 puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
-const randomUseragent = require("random-useragent");
+const helper = require("./views/helpers/helper");
+
+
 
 // const PORT = process.env.PORT || 3000;
 
@@ -14,7 +16,9 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
+
 (async () => {
+  try{
  
   const args = [
     "--no-sandbox",
@@ -35,14 +39,8 @@ app.use(express.urlencoded({ extended: true }));
   await puppeteer.use(pluginStealth());
   const browser = await puppeteer.launch({...options});
   const page = (await browser.pages())[0];
-  // const page = await browser.newPage();
 
   const waitTime  = (Math.floor(Math.random() * (3000 - 1000) ) + 1000)
-
-   
-
-
-
 
 
     //use ddg to trick bot as coming from search site
@@ -72,10 +70,6 @@ await page.waitForTimeout(waitTime);
   await page.deleteCookie(...cookies)
 
   await page.waitForTimeout(waitTime);
-
-  //check if it bypass bot detection
-
-  // const pageCheck =
 
   
 //click on change test link 
@@ -133,51 +127,66 @@ await page.waitForTimeout(waitTime);
 
       await page.click("#fetch-more-centres")
       await page.waitForTimeout(3000)
-        
-        
       }
-
-
 
   }
 
   await expandResults()
 
 
-
-  
-
-  
-
-
-
-
   await page.waitForTimeout(waitTime);
-
-  
 
   const venue = await page.$$eval('.underline > h4', element => element.map( city=> city.textContent) );
 
 
   const date = await page.$$eval('.underline > h5', element => element.map( date => date.textContent.slice(-11)) );
 
-
-
-
-
-
   let results = await Object.assign.apply({}, venue.map( (v, i) => ( {[v]: date[i]} ) ) );
+  //format results into an array of objects
 
   console.log(results);
 
 
+  await browser.close()
+}
+catch{
+  error =>{
+    console.log(error);
+  }
+
+}})
+
+let drivingLicense_valid;
+let reference_valid ;
+let postcode_valid;
+
+
+app.get("/login", (req, res) => {
+    res.render("home", {
+      results: results,
+
+    });  
+});
+
+app.post("/login", (req, res) => {
+  const [drivingLicence] = req.body;
+  const [reference] = req.body;
+  const [postCode] = req.body;
+
+  //check input
+
+  drivingLicense_valid = helper.inputChecker(drivingLicence,"driving_license")
+  reference_valid = helper.inputChecker(reference,"reference")
+  postcode_valid = helper.inputChecker(postCode,"postcode")
+
+  if(drivingLicense_valid && reference_valid && postcode_valid){
+    res.redirect("/login")
+
+  }else{
+    res.redirect("/home" )
+
+  }
+
   
-
-
-
-
-  return
-
-  await browser.close();
-})();
+});
 
