@@ -1,0 +1,17 @@
+<%- include('./partials/header.ejs') %>
+
+<% if (opening_time === true){ %>
+<div class="error">
+    <img src="/images/error_icon.png" alt="">
+    <p>Something Went wrong.Please try again.</p>
+    <a href="/">Tap to Retry</a></div>
+<% }else{ %>
+     
+    <div class="error">
+       <img src="/images/error_icon.png" alt="">
+        <p>Available between 6am and 11:40pm</p>
+        <a href="/">Homepage</a></div>
+    <%  } %>
+    
+
+<%- include('./partials/footer.ejs') %>
